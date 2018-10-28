@@ -1,16 +1,17 @@
 require 'date'
 class Course
+  attr_accessor :name
   def initialize(name, *fecha)
     @name = name
     @fecha = fecha.map { |date| Date.parse(date)}
   end
-  def inicio(fecha_entregada)
-    raise ArgumentError.new('argument is not a date') if fecha_entregada.class != Date
-    @fecha.select { |date| date < fecha_entregada}
+  def inicio(fecha_inicio)
+    raise ArgumentError.new('argument is not a date') if fecha_inicio.class != Date
+    @fecha.select { |date| date < fecha_inicio}
   end
-  def termino(fechas)
-    raise ArgumentError.new('argument is not a date') if fechas.class != Date
-    @fecha.select { |date| date < fechas}
+  def termino(fecha_termino)
+    raise ArgumentError.new('argument is not a date') if fecha_termino.class != Date
+    @fecha.select { |date| date < fecha_termino}
 
   end
 end
@@ -22,8 +23,17 @@ data.each do |prod|
   ls = prod.split(', ')
   info << Course.new(*ls)
 end
-p info
 
-p info[0].inicio(Date.today)
+i = 0
+info.each do |fechas|
+p fechas.name
+y = info[i].inicio(Date.today)
+p y
+end
 
-p info[0].termino(Date.today)
+i = 0
+info.each do |fechas|
+p fechas.name
+d = info[i].termino(Date.today)
+p d
+end
